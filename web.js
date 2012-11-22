@@ -1,62 +1,59 @@
-var async   = require('async');
-var express = require('express');
-var util    = require('util');
+// require
+var async = require('async')
+    ,express = require('express')
+    ,util    = require('util');
 
-// create an express webserver
-var app = express.createServer(
-  express.logger(),
-  express.static(__dirname + '/public'),
-  express.bodyParser(),
-  express.cookieParser(),
-  // set this to a secret value to encrypt session cookies
-  express.session({ secret: process.env.SESSION_SECRET || 'secret123' }),
-  require('faceplate').middleware({
-    app_id: process.env.FACEBOOK_APP_ID,
-    secret: process.env.FACEBOOK_SECRET,
-    scope:  'user_likes,user_photos,user_photo_video_tags'
-  })
-);
+// app
+var app = module.exports = express();
 
-// listen to the PORT given to us in the environment
-var port = process.env.PORT || 3000;
+// engine
+// app.engine('.html', require('ejs').__express);
+app.engine('.html', require('ejs-locals'));
+app.set('views', __dirname + '/views');
+app.set('view engine', 'html');
 
-app.listen(port, function() {
-  console.log("Listening on " + port);
-});
+// Config
+app.configure(function(){
 
-app.dynamicHelpers({
-  'host': function(req, res) {
-    return req.headers['host'];
-  },
-  'scheme': function(req, res) {
-    req.headers['x-forwarded-proto'] || 'http'
-  },
-  'url': function(req, res) {
-    return function(path) {
-      return app.dynamicViewHelpers.scheme(req, res) + app.dynamicViewHelpers.url_no_scheme(path);
-    }
-  },
-  'url_no_scheme': function(req, res) {
-    return function(path) {
-      return '://' + app.dynamicViewHelpers.host(req, res) + path;
-    }
-  },
-});
+    app.use(express.logger());
+    app.use(express.static(__dirname + '/public'));
+    app.use(express.cookieParser());
+    app.use(express.bodyParser());
+    app.use(express.session({ secret: process.env.SESSION_SECRET || 'ulala123' }));
+    app.use(require('faceplate').middleware({
+        app_id: process.env.FACEBOOK_APP_ID
+        ,secret: process.env.FACEBOOK_SECRET
+        ,scope:  'user_likes,user_photos,user_photo_video_tags'
+    }));
 
-function render_page(req, res) {
-  req.facebook.app(function(app) {
-    req.facebook.me(function(user) {
-      res.render('index.ejs', {
-        layout:    false,
-        req:       req,
-        app:       app,
-        user:      user
-      });
+    app.use(function(req, res, next){
+        app.locals({
+            host: function(){ return req.headers['host']; }
+            ,scheme: function(){ return req.headers['x-forwarded-proto'] || 'http'; }
+            ,url_no_scheme: function(path){ return '://' + app.locals.host() + path; }
+            ,url: function(path){ return app.locals.scheme() + app.locals.url_no_scheme(path); }
+        });
+        next();
     });
-  });
+});
+
+app.set('appName','Movimento Respirar - Controlar');
+app.set('title','Movimento Respirar - Controlar');
+
+function render_page(req, res){
+    req.facebook.app(function(app) {
+        req.facebook.me(function(user) {
+            res.render('index', {
+                layout:    false,
+                req:       req,
+                app:       app,
+                user:      user
+            });
+        });
+    });
 }
 
-function handle_facebook_request(req, res) {
+function handle_facebook_request(req, res, next) {
 
   // if the user is logged in
   if (req.facebook.token) {
@@ -101,3 +98,11 @@ function handle_facebook_request(req, res) {
 
 app.get('/', handle_facebook_request);
 app.post('/', handle_facebook_request);
+
+
+// listen to the PORT given to us in the environment
+var port = process.env.PORT || 3000;
+
+app.listen(port, function(){
+    console.log("Listening on " + port);
+});
