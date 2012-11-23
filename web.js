@@ -1,6 +1,8 @@
 // require
 var express = require('express')
-    ,util    = require('util');
+    ,util = require('util')
+    ,fb = require('./lib/fb')
+    ;
 
 // app
 var app = module.exports = express();
@@ -39,12 +41,18 @@ app.set('appName','Movimento Respirar - Controlar');
 app.set('appDescription','Descubra o que aconteceu no dia em que você nasceu.');
 app.set('title','Movimento Respirar - Controlar');
 
-// Facebook Methods
-var fb = require('./lib/fb');
-
+// Routes
 app.get('/', fb.methods.handle_facebook_request);
 app.post('/', fb.methods.handle_facebook_request);
 
+app.get('/consulta', function(req, res, next){
+    res.render('consulta',{
+        title: 'Users'
+        ,req: req
+        ,app: req.session.app
+        ,user: req.session.user
+    });
+});
 
 // listen to the PORT given to us in the environment
 var port = process.env.PORT || 3000;
