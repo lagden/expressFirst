@@ -1,6 +1,5 @@
 // require
-var async = require('async')
-    ,express = require('express')
+var express = require('express')
     ,util    = require('util');
 
 // app
