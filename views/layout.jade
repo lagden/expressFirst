@@ -1,0 +1,48 @@
+doctype 5
+html(xmlns:fb='http://ogp.me/ns/fb#', lang='pt-BR')
+  head
+    meta(name='viewport', content='width=device-width, initial-scale=1.0, maximum-scale=2.0, user-scalable=yes')
+    title= settings.title
+    meta(property='og:title', content='#{settings.appName}')
+    meta(property='og:type', content='website')
+    meta(property='og:url', content='#{url("/")}')
+    meta(property='og:image', content='#{url("/logo.png")}')
+    meta(property='og:site_name', content='#{settings.appName}')
+    meta(property='og:description', content='#{settings.appDescription}')
+    meta(property='fb:app_id', content='#{app.id}')
+    link(rel='stylesheet', href='stylesheets/screen.css', media='Screen', type='text/css')
+  body
+    #fb-root
+    header.clearfix
+      div
+        h1 Welcome
+        .fb-login-button(data-scope='user_likes,user_photos')
+    block content
+    script(type='text/javascript', src='/scripts/jquery.min.js')
+    script(type='text/javascript', src='/scripts/plugins.js')
+    script(type='text/javascript', src='/scripts/main.js')
+    script(type='text/javascript', src='/scripts/facebook.js')
+    script(type='text/javascript')
+      window.fbAsyncInit = function(){
+        FB.init({
+          appId: '#{app.id}'
+          ,channelUrl: '#{url_no_scheme('/channel.html')}'
+          ,status: true
+          ,cookie: true
+          ,xfbml: true
+        });
+
+        FB.Event.subscribe('auth.login', function(response){
+          window.location = window.location;
+        });
+
+        FB.Canvas.setAutoGrow();
+      };
+
+      (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/all.js";
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
