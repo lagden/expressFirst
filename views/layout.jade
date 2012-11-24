@@ -12,7 +12,6 @@ html(xmlns:fb='http://ogp.me/ns/fb#', lang='pt-BR')
     meta(property='fb:app_id', content='#{app.id}')
     link(rel='stylesheet', href='stylesheets/screen.css', media='Screen', type='text/css')
   body
-    #fb-root
     header.clearfix
       div
       - if (user)
@@ -21,31 +20,32 @@ html(xmlns:fb='http://ogp.me/ns/fb#', lang='pt-BR')
       - else
         .fb-login-button(data-scope='user_likes,user_photos')
     block content
+    div#fb-root
+    script(type='text/javascript', src='/socket.io/socket.io.js')
     script(type='text/javascript', src='/scripts/jquery.min.js')
-    script(type='text/javascript', src='/scripts/plugins.js')
     script(type='text/javascript', src='/scripts/main.js')
     script(type='text/javascript', src='/scripts/facebook.js')
     script(type='text/javascript')
-      window.fbAsyncInit = function(){
-        FB.init({
-          appId: '#{app.id}'
-          ,channelUrl: '#{url_no_scheme('/channel.html')}'
-          ,status: true
-          ,cookie: true
-          ,xfbml: true
-        });
+      //- window.fbAsyncInit = function(){
+      //-   FB.init({
+      //-     appId: '#{app.id}'
+      //-     ,channelUrl: '#{url_no_scheme('/channel.html')}'
+      //-     ,status: true
+      //-     ,cookie: true
+      //-     ,xfbml: true
+      //-   });
 
-        FB.Event.subscribe('auth.login', function(response){
-          window.location = window.location;
-        });
+      //-   FB.Event.subscribe('auth.login', function(response){
+      //-     window.location = window.location;
+      //-   });
 
-        FB.Canvas.setAutoGrow();
-      };
+      //-   FB.Canvas.setAutoGrow();
+      //- };
 
-      (function(d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        js = d.createElement(s); js.id = id;
-        js.src = "//connect.facebook.net/en_US/all.js";
-        fjs.parentNode.insertBefore(js, fjs);
-      }(document, 'script', 'facebook-jssdk'));
+      //- (function(d, s, id) {
+      //-   var js, fjs = d.getElementsByTagName(s)[0];
+      //-   if (d.getElementById(id)) return;
+      //-   js = d.createElement(s); js.id = id;
+      //-   js.src = "//connect.facebook.net/en_US/all.js";
+      //-   fjs.parentNode.insertBefore(js, fjs);
+      //- }(document, 'script', 'facebook-jssdk'));

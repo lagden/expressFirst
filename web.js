@@ -1,20 +1,21 @@
 // require
 var express = require('express')
-    ,util = require('util')
-    ,fb = require('./lib/fb')
+    , util = require('util')
+    , fb = require('./lib/fb')
+    , db = require('./lib/db')
+    , app = module.exports = express()
+    , http = require('http')
+    , server = http.createServer(app)
+    , io = require('socket.io').listen(server)
     ;
-
-// app
-var app = module.exports = express();
 
 // engine
 app.engine('jade', require('jade').__express);
 app.set('view engine', 'jade');
 app.set('views', __dirname + '/views');
 
-// Config
+// config
 app.configure(function(){
-
     app.use(express.logger());
     app.use(express.static(__dirname + '/public'));
     app.use(express.cookieParser());
@@ -23,9 +24,8 @@ app.configure(function(){
     app.use(require('faceplate').middleware({
         app_id: process.env.FACEBOOK_APP_ID
         ,secret: process.env.FACEBOOK_SECRET
-        ,scope:  'user_likes,user_photos,user_photo_video_tags'
+        ,scope: null
     }));
-
     app.use(function(req, res, next){
         app.locals({
             host: function(){ return req.headers['host']; }
@@ -37,26 +37,43 @@ app.configure(function(){
     });
 });
 
+// Heroku won't actually allow us to use WebSockets
+// so we have to setup polling instead.
+// https://devcenter.heroku.com/articles/using-socket-io-with-node-js-on-heroku
+io.configure(function (){
+    io.set("transports", ["xhr-polling"]);
+    io.set("polling duration", 10);
+});
+
+// set
 app.set('appName','Movimento Respirar - Controlar');
 app.set('appDescription','Descubra o que aconteceu no dia em que você nasceu.');
 app.set('title','Movimento Respirar - Controlar');
 
-// Routes
+// routes
 app.get('/', fb.methods.handle_facebook_request);
 app.post('/', fb.methods.handle_facebook_request);
 
-app.get('/consulta', function(req, res, next){
-    res.render('consulta',{
-        title: 'Users'
-        ,req: req
-        ,app: req.session.app
-        ,user: req.session.user
+// for manual request
+app.get('/consulta/:ano', function(req, res, next){
+    var ano = db.anos[req.params.ano] || false;
+    (ano)
+        ? res.json(200, ano)
+        : res.json(500, {err: 'Ops! Não encontramos registros para o ano de '+ano+', por favor, faça uma nova pesquisa.'});
+});
+
+// socket.io
+io.sockets.on('connection', function (socket){
+    socket.on('click:consulta', function (data){
+        var ano = db.anos[data.ano] || false;
+        (ano)
+            ? socket.emit('200', ano)
+            : socket.emit('500', {err: 'Ops! Não encontramos registros para o ano de ' + data.ano + ', por favor, faça uma nova pesquisa.'});
     });
 });
 
-// listen to the PORT given to us in the environment
-var port = process.env.PORT || 3000;
-
-app.listen(port, function(){
-    console.log("Listening on " + port);
+// Use the port that Heroku provides or default to 5000
+var port = process.env.PORT || 5000;
+server.listen(port, function(){
+    console.log("Express server and Socket.io listening on port %d", port);
 });
