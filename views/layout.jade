@@ -13,10 +13,7 @@ html(xmlns:fb='http://ogp.me/ns/fb#', lang='pt-BR')
     link(rel='stylesheet', href='stylesheets/screen.css', media='Screen', type='text/css')
   body
     div.wrapper
-      - if (user)
-          h1
-            | Olá <b>#{user.name}</b>
-      - else
+      - if (!user)
         .fb-login-button(data-scope='user_likes')
 
     
