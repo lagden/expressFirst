@@ -141,7 +141,7 @@ footer.wrapper{
 
 .frm{
     label.white{
-        @include fontsize(24);
+        @include fontsize(20);
         @include inline-block;
         color: $white;
         text-transform: uppercase;
