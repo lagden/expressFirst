@@ -128,11 +128,14 @@ footer.wrapper{
             font-size: 0;
             li{
                 @extend .col6de12;
-                background-color: $white;
                 @include fontsize;
+                 background-color: $white;
                 .bloco{
                     @include box-sizing(border-box);
                     border: 9px solid $white;
+                    img{
+                        width: 100%;
+                    }
                 }
             }
         }

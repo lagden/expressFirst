@@ -12,9 +12,9 @@ html(xmlns:fb='http://ogp.me/ns/fb#', lang='pt-BR')
     meta(property='fb:app_id', content='#{app.id}')
     link(rel='stylesheet', href='stylesheets/screen.css', media='Screen', type='text/css')
   body
-    div.wrapper
-      - if (!user)
-        .fb-login-button(data-scope='user_likes')
+    //- div.wrapper
+    //-   - if (!user)
+    //-     .fb-login-button(data-scope='user_likes')
 
     header.wrapper
       h2.ribbon.blue
@@ -35,7 +35,7 @@ html(xmlns:fb='http://ogp.me/ns/fb#', lang='pt-BR')
       window.fbAsyncInit = function(){
         FB.init({
           appId: '#{app.id}'
-          ,channelUrl: '#{url_no_scheme('/channel.html')}'
+          //- ,channelUrl: '#{url_no_scheme('/channel.html')}'
           ,status: true
           ,cookie: true
           ,xfbml: true
