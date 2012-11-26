@@ -68,7 +68,7 @@ io.sockets.on('connection', function (socket){
         var ano = db.anos[data.ano] || false;
         (ano)
             ? socket.emit('200', {resultado: ano, msg: 'Olha só o que estava acontecendo em  ' + data.ano + ', o ano em que você nasceu:'})
-            : socket.emit('500', {err: 'Ops! Não encontramos registros para o ano de ' + data.ano + ', por favor, faça uma nova pesquisa.'});
+            : socket.emit('500', {err: 'Ops! Não encontramos registros para o ano de ' + data.ano + ', faça uma nova pesquisa.'});
     });
 });
 
