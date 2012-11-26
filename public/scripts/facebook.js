@@ -49,13 +49,13 @@
         e.preventDefault();
         FB.ui({
             method: 'feed'
-            , name: 'HyperArts Blog'
-            , link: 'http://hyperarts.com/blog'
-            , picture: 'http://www.hyperarts.com/_img/TabPress-LOGO-Home.png'
-            , caption: 'I love HyperArts tutorials'
-            , description: 'The HyperArts Blog provides tutorials for all things Facebook'
+            , name: 'Lagden App'
+            , link: 'http://whispering-island-5758.herokuapp.com'
+            , picture: 'http://www.gravatar.com/avatar/bfe5ce4cb209f3e4f4584e1f5aa209c6.png'
+            , caption: 'Yeahhh!!'
+            , description: 'Isto é apenas um teste!'
             , message: ''
         });
     });
-    
+
 })(jQuery);
