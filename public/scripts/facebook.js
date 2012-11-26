@@ -45,7 +45,7 @@
         );
     });
 
-    $('#share_button').live('click', function(e){
+    $('#custom_share_button').live('click', function(e){
         e.preventDefault();
         FB.ui({
             method: 'feed'
