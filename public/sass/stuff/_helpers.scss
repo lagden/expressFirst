@@ -1,0 +1,127 @@
+// For image replacement
+.ir {
+    border: 0;
+    font: 0/0 Arial;
+    text-shadow: none;
+    color: transparent;
+    background-color: transparent;
+}
+
+// Hide from both screenreaders and browsers: h5bp.com/u 
+.hidden { 
+    display: none !important;
+    visibility: hidden;
+}
+
+// Hide only visually, but have it available for screenreaders: h5bp.com/v
+.visuallyhidden {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+    // Extends the .visuallyhidden class to allow the element to be focusable when navigated to via the keyboard: h5bp.com/p
+    &.focusable:active,
+    &.focusable:focus { 
+        clip: auto;
+        height: auto;
+        margin: 0;
+        overflow: visible;
+        position: static;
+        width: auto;
+    }
+}
+
+// Hide visually and from screenreaders, but maintain layout
+.invisible {
+    visibility: hidden;
+}
+
+.fleft{ float: left; }
+.fright{ float: right; }
+.clear{ clear: both; float: none; }
+
+.text-left{ text-align: left; }
+.text-right{ text-align: right; }
+.text-center{ text-align: center; }
+.pr { position:relative; }
+.border-box { @include box-sizing(border-box); }
+
+@for $i from 1 through 8 {
+    .gv#{$i} {
+        height: $gutterVertical * $i;
+        position: relative; 
+    }
+}
+
+
+// Margin and Padding Gutter - Vertical - Full and Half
+$mp_gutter_v: ();
+$mp_gutter_v: insert($mp_gutter_v, mtvg, margin-top);
+$mp_gutter_v: insert($mp_gutter_v, mbvg, margin-bottom);
+$mp_gutter_v: insert($mp_gutter_v, ptvg, padding-top);
+$mp_gutter_v: insert($mp_gutter_v, pbvg, padding-bottom);
+
+@each $c in keys($mp_gutter_v) {
+    .#{$c}{
+        #{lookup($mp_gutter_v, $c)}: $gutterVertical;
+        #{lookup($mp_gutter_v, $c)}: relative-size(($gutterVertical/1px),$fontBase,rem);
+    }
+}
+
+$mp_gutter_vh: ();
+$mp_gutter_vh: insert($mp_gutter_vh, mtvhg, margin-top);
+$mp_gutter_vh: insert($mp_gutter_vh, mbvhg, margin-bottom);
+$mp_gutter_vh: insert($mp_gutter_vh, ptvhg, padding-top);
+$mp_gutter_vh: insert($mp_gutter_vh, pbvhg, padding-bottom);
+
+@each $c in keys($mp_gutter_vh) {
+    $half: $gutterVertical / 2;
+    .#{$c}{
+        #{lookup($mp_gutter_vh, $c)}: $half;
+        #{lookup($mp_gutter_vh, $c)}: relative-size(($half/1px),$fontBase,rem);
+    }
+}
+
+// Margin and Padding Gutter - Full and Half
+$mp_gutter: ();
+$mp_gutter: insert($mp_gutter, mg, margin);
+$mp_gutter: insert($mp_gutter, mtg, margin-top);
+$mp_gutter: insert($mp_gutter, mrg, margin-right);
+$mp_gutter: insert($mp_gutter, mbg, margin-bottom);
+$mp_gutter: insert($mp_gutter, mlg, margin-left);
+$mp_gutter: insert($mp_gutter, pg, padding);
+$mp_gutter: insert($mp_gutter, ptg, padding-top);
+$mp_gutter: insert($mp_gutter, prg, padding-right);
+$mp_gutter: insert($mp_gutter, pbg, padding-bottom);
+$mp_gutter: insert($mp_gutter, plg, padding-left);
+
+@each $c in keys($mp_gutter) {
+    .#{$c}{
+        #{lookup($mp_gutter, $c)}: $gutter-width;
+        #{lookup($mp_gutter, $c)}: relative-size(($gutter-width/1px),$fontBase,rem);
+    }
+}
+
+$mp_gutter_h: ();
+$mp_gutter_h: insert($mp_gutter_h, mhg, margin);
+$mp_gutter_h: insert($mp_gutter_h, mthg, margin-top);
+$mp_gutter_h: insert($mp_gutter_h, mrhg, margin-right);
+$mp_gutter_h: insert($mp_gutter_h, mbhg, margin-bottom);
+$mp_gutter_h: insert($mp_gutter_h, mlhg, margin-left);
+$mp_gutter_h: insert($mp_gutter_h, phg, padding);
+$mp_gutter_h: insert($mp_gutter_h, pthg, padding-top);
+$mp_gutter_h: insert($mp_gutter_h, prhg, padding-right);
+$mp_gutter_h: insert($mp_gutter_h, pbhg, padding-bottom);
+$mp_gutter_h: insert($mp_gutter_h, plhg, padding-left);
+
+@each $c in keys($mp_gutter_h) {
+    $half: $gutter-width / 2;
+    .#{$c}{
+        #{lookup($mp_gutter_h, $c)}: $half;
+        #{lookup($mp_gutter_h, $c)}: relative-size(($half/1px),$fontBase,rem);
+    }
+}

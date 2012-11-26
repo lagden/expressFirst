@@ -1,0 +1,87 @@
+$show: false;
+
+// Default Class Grid
+$i: 1;
+@while $i < ($columns + 1) {
+    .col#{$i}de#{$columns} {
+        @include column($i);
+        @include helperGrid($gh2, $show);
+    }
+
+    .grid#{$i}de#{$columns} {
+        @include grid($i);
+        @include helperGrid($gh2, $show);
+    }
+
+    .row#{$i}{
+        @include row($i);
+    }
+    $i: $i + 1;
+}
+
+/*
+ * $ghCol               - cor da coluna
+ * $ghLines             - cor da linha
+ * $transparent         - cor transparent
+ * $gutterHorizontal    - tamanho espaço entre as colunas (calha)
+ * $column-width        - tamanho da coluna 
+ * $gutterVerticalHalf  - espaçamento vertical
+*/
+@mixin backgroundHelper($ghCol:$ghCol, $ghLines:$ghLines, $transparent:$transparent, $gutterHorizontal:$gutterHorizontal, $column-width:$column-width, $gutterVerticalHalf:$gutterVerticalHalf) {
+    &:before{
+        bottom: 0;
+        content: "\0020";
+        height: 100%;
+        left: 0;
+        margin: 0 auto;
+        pointer-events: none;
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: gridsystem-width($columns);
+        $plus: ($column-width + $gutterHorizontal);
+        $diff: ($column-width - $gutterHorizontal);
+        $gh: ($gutterHorizontal / 2);
+        $ghg: $gh + $gutterHorizontal;
+        @include background-image(
+            linear-gradient($ghLines 2px, $transparent 2px),
+            linear-gradient(left, $ghLines 2px, $transparent 2px),
+            linear-gradient(left, $ghLines 1px, $transparent 1px),
+            linear-gradient(left, $ghLines 1px, $transparent 1px),
+            -webkit-repeating-linear-gradient(
+                left, $transparent 0px, $ghCol 0px,
+                $ghCol $diff, $transparent $diff,
+                $transparent $column-width,
+                $ghCol $column-width
+            )
+        );
+        background-color: rgba(0,0,0,0.3);
+        background-position: 0px -1px, -1px 0px, (($gh + 1) * -1) 0px, $gh 0px, $ghg 0px;
+        background-size:
+            $gutterVerticalHalf $gutterVerticalHalf,
+            $plus $plus,
+            $plus $plus,
+            $plus $plus,
+            $plus $plus;
+    }
+}
+
+table.gridBackgroundHelper{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9999;
+    @if $show == false {
+        display: none;
+    }
+    td{
+        @if $show {
+            @include backgroundHelper;
+            width: 100%;
+            height: 100%;
+        }
+    }
+}

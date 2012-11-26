@@ -1,0 +1,181 @@
+@import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700);
+
+// Classes comum
+.cf,
+.media{
+    @include clear-floats;
+}
+
+.wrapper{
+    @include clear-floats;
+    @include helperGrid($gh1, $show);
+    margin-left: auto;
+    margin-right: auto;
+    overflow: hidden;
+    position: relative;
+    width: $total-width;
+    &.overflow{
+        overflow: visible;
+    }
+}
+
+// Geral
+html{
+    @include fixed-sized-text;
+    @include improve-text-rendering;
+    background-color: $white;
+    color: $gray;
+    font-size: $fontSize;
+    height:100%;
+}
+
+body{
+    @include sans-serif($webfont01);
+    height:100%;
+    margin: 0;
+    width: 100%;
+}
+
+header.wrapper{
+    @include relativeSizeAttr('padding-top', 56);
+    @include relativeSizeAttr('width', ((30 * 2) + ($total-width / 1px)));
+    overflow: visible;
+    h2.ribbon.blue
+    {
+        @include ribbon($blue, 100%);
+        span{
+            text-align: center;
+            height: 100px;
+            .logo{
+                position: relative;
+                top: -35px;
+                width: 188px;
+            }
+        }
+    }
+}
+
+footer.wrapper{
+    @extend %padExtra;
+    @include relativeSizeAttr('min-height', 30);
+    border-top: 1px solid $white;
+    background-color: $blue;
+}
+
+.bg{
+    @extend %padExtra;
+    @include relativeSizeAttr('padding-bottom', 50);
+    background:{
+        color: $bg;
+        image: image-url('numbers.png');
+        repeat: no-repeat;
+        position: 100% -5%;
+    }
+
+    h1,h2{
+        color: $blue;
+    }
+
+    h1{
+        @include fontsize(22);
+    }
+
+    h2{
+        @include fontsize(18);
+    }
+
+    p{
+        @include fontsize(14);
+    }
+
+    .super-mb{
+        @include relativeSizeAttr('margin-bottom',50);
+    }
+
+    .msg{
+        @include relativeSizeAttr('margin-top',30);
+        @include relativeSizeAttr('margin-bottom',30);
+    }
+
+    .consulta{
+        @include border-radius($br);
+        @include box-sizing(border-box);
+        width: 98%;
+        margin: 0 auto;
+        background-color: $blue;
+        padding: 13px;
+        input[type=text]{
+            width: 100px;
+        }
+    }
+
+    .resultado{
+        background:{
+            image: image-url('numbers.png');
+            repeat: no-repeat;
+            position: 0% 100%;
+        }
+        p{
+            @include fontsize(12);
+            @include word-break(break-all);
+            color: $blueDark;
+            font-weight: 700;
+            a{
+                @include lnkcolorize($blueDark, $blueDark);
+            }
+        }
+        ul{
+            font-size: 0;
+            li{
+                @extend .col6de12;
+                background-color: $white;
+                @include fontsize;
+                .bloco{
+                    @include box-sizing(border-box);
+                    border: 9px solid $white;
+                }
+            }
+        }
+    }
+}
+
+.frm{
+    label.white{
+        @include fontsize(24);
+        @include inline-block;
+        color: $white;
+        text-transform: uppercase;
+        vertical-align: middle;
+    }
+    input[type=text],
+    button{
+        @include box-sizing(border-box);
+        @include fontsize(12);
+        @include inline-block;
+        border: 0;
+        height: 28px;
+        line-height: 18px;
+        padding: 4px;
+        vertical-align: middle;
+        &:focus{
+            outline: 0;
+        };
+    }
+
+    button{
+        background-color: $blueDark;
+        vertical-align: bottom;
+        color: $white;
+        font-weight: normal;
+        text-transform: uppercase;
+        cursor: pointer;
+        position: relative;
+        padding: 4px 6px;
+        &:active{
+            top: 1px;
+        }
+        &.blue{
+            background-color: $blue;
+        }
+    }
+}

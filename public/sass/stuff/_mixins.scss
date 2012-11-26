@@ -1,0 +1,143 @@
+@mixin clear-floats(){
+    &:before,
+    &:after {
+        content: "\0020";
+        display: block;
+        height: 0;
+        overflow: hidden;
+    }
+
+    &:after {
+        clear: both;
+    }
+
+    & {
+        zoom: 1;
+    }
+}
+
+@mixin inline-block(){
+    display:inline-block;
+
+    // IE7 fix
+    *display:inline;
+    *zoom:1;
+}
+
+@mixin fontface($embedFont : false){
+    @if $embedFont != false { 
+        @include font-face(
+            "#{$embedFont}",
+            font-files(
+                "#{$embedFont}-webfont.woff", woff,
+                "#{$embedFont}-webfont.ttf", truetype,
+                "#{$embedFont}-webfont.svg##{$embedFont}", svg
+                ),
+            "#{$embedFont}-webfont.eot"
+        );
+    }
+}
+
+@mixin fontfamily($embedFont : false){
+    @include sans-serif($embedFont);
+}
+
+@mixin fontsize($fs: 16, $fb: $fontBase){
+    @include relativeSizeAttr('font-size',$fs,$fb);
+}
+
+@mixin relativeSizeAttr($attr, $fs: 16, $fb: $fontBase){
+    #{$attr}: #{$fs}px;
+    #{$attr}: relative-size($fs,$fb,rem);
+}
+
+@mixin lnkcolorize($fc : #000, $lc : #000, $hover: true){
+    @if $hover == true {
+        @include hover-link;
+    }
+    @else{
+        text-decoration: none;
+        &:hover{
+            text-decoration: none;
+        }
+    }
+    @include link_colors($fc,$lc,$fc,$fc,$fc);
+    &.selected{
+        @include link_colors($lc,$lc,$lc,$lc,$lc);
+    }
+}
+
+@mixin helperGrid($c: rgba(0, 0, 0, .5), $show: false){
+    @if $show == true { background-color: $c; }
+}
+
+@mixin placeholder($color: $red) {
+    &:-moz-placeholder {
+        color: $color;
+    }
+    &:-ms-input-placeholder {
+        color: $color;
+    }
+    &::-webkit-input-placeholder {
+        color: $color;
+    }
+}
+
+/* ribbon mixin */
+@mixin ribbon($color: #FF0000, $width: 90%){
+    $colorLight: lighten( $color, 10% );
+    $colorLighter: lighten( $color, 20% );
+    $colorDark: darken( $color, 20% );
+    $colorDarker: darken( $color, 40% );
+    width: $width;
+    position: relative;
+    margin: 0;
+    padding: 0;
+    background-color: $color;
+    z-index: 999;
+    &:before,
+    &:after{
+        content: "\0020";
+        width:.2em;
+        bottom:-.5em;
+        position:absolute;
+        display:block;
+        border: .9em solid $colorDark;
+        z-index:-2;
+    }
+    &:before {
+        left:-1.35em;
+        border-right-width: .75em;
+        border-left-color:transparent;
+    }
+
+    &:after {
+        right:-1.35em;
+        border-left-width: .75em;
+        border-right-color:transparent;
+    }
+
+    span{
+        background-color: $color;
+        position: relative;
+        display: block;
+        &:before,
+        &:after{
+            content: "\0020";
+            bottom:-.5em;
+            position:absolute;
+            display:block;
+            border-style:solid;
+            border-color: $colorDarker transparent transparent transparent;
+            z-index:-1;
+        }
+        &:before {
+            left: 0;
+            border-width: .5em 0 0 .5em;
+        }
+        &:after {
+            right: 0;
+            border-width: .5em .5em 0 0;
+        }
+    }
+}

@@ -2,8 +2,38 @@
 extends layout
 
 block content
-  p
-    | isso é demaiss!!!
-  div
-    input#ano(type='text', name='ano')
-    button#consulta Consulta
+  h1.blue.text-center
+    | Você sabe quais os fatos marcaram São Paulo<br>no ano que você nasceu?
+
+  p.text-center.super-mb
+    | Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum
+    | dolore eu feugiat nulla facilisis at vero eros et accumsan et.  Duis autem vel eum iriure dolor in
+    | hendrerit in vulputate velit esse consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et.
+
+  div.consulta.frm.text-center
+    label.white
+      | Informe o ano de seu nascimento: 
+      input#ano(type='text', name='ano') 
+    button#consulta.mlhg Pesquisar
+
+  h2#msg.msg.text-center
+    | msg
+
+  div#resultado.resultado
+    ul.nav.cf.mbg
+      li.js-car
+        div.bloco.text-center
+          img(src='/images/car.png', alt='Carro')
+          p
+            | msg
+
+      li.js-city
+        div.bloco.text-center
+          img(src='/images/city.png', alt='Cidade')
+          p
+            | msg
+    div.msg.text-center.frm
+      h2
+        | Viu só quantos fatos importantes aconteceram em <span class="js-ano">1989</span>?<br>
+        | Faça uma nova pesquisa ou compartilhe com seus amigos.
+      button#share.blue Compartilhar

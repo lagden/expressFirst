@@ -1,3 +1,9 @@
+$LOAD_PATH.unshift File.dirname(__FILE__)
+
+# Require any additional compass plugins here.
+require 'stitch'
+require 'sass-dic.rb'
+
 # Require any additional compass plugins here.
 
 # Set this to the root of your project when deployed:

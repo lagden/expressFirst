@@ -1,13 +1,11 @@
 {
-  "name": "facebook-template-node",
+  "name": "Movimento-Respirar-Controlar",
   "version": "0.0.1",
-  "description": "Template app for Heroku / Facebook integration, Node.js language",
+  "description": "Descubra o que aconteceu no ano em que você nasceu.",
   "dependencies": {
     "async": "0.1.18",
-    "ejs": "0.8.3",
     "express": "3.0.3",
     "faceplate": "0.0.4",
-    "ejs-locals": "~1.0.2",
     "jade": "~0.27.7",
     "socket.io": "~0.9.11"
   },

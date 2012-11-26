@@ -12,17 +12,27 @@ html(xmlns:fb='http://ogp.me/ns/fb#', lang='pt-BR')
     meta(property='fb:app_id', content='#{app.id}')
     link(rel='stylesheet', href='stylesheets/screen.css', media='Screen', type='text/css')
   body
-    header.clearfix
-      div
+    div.wrapper
       - if (user)
           h1
             | Olá <b>#{user.name}</b>
       - else
-        .fb-login-button(data-scope='user_likes,user_photos')
-    block content
+        .fb-login-button(data-scope='user_likes')
+
+    
+    header.wrapper
+      h2.ribbon.blue
+        span
+          img.logo(src='/images/logo.png', alt='#{settings.appName}')
+
+    div.wrapper.bg
+      block content
+
+    footer.wrapper
+
     div#fb-root
     script(type='text/javascript', src='/socket.io/socket.io.js')
-    script(type='text/javascript', src='/scripts/jquery.min.js')
+    script(type='text/javascript', src='/scripts/jquery.js')
     script(type='text/javascript', src='/scripts/main.js')
     script(type='text/javascript', src='/scripts/facebook.js')
     script(type='text/javascript')

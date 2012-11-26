@@ -47,8 +47,8 @@ io.configure(function (){
 
 // set
 app.set('appName','Movimento Respirar - Controlar');
-app.set('appDescription','Descubra o que aconteceu no dia em que você nasceu.');
-app.set('title','Movimento Respirar - Controlar');
+app.set('appDescription','Descubra o que aconteceu no ano em que você nasceu.');
+app.set('title', app.get('appName'));
 
 // routes
 app.get('/', fb.methods.handle_facebook_request);
@@ -58,8 +58,8 @@ app.post('/', fb.methods.handle_facebook_request);
 app.get('/consulta/:ano', function(req, res, next){
     var ano = db.anos[req.params.ano] || false;
     (ano)
-        ? res.json(200, ano)
-        : res.json(500, {err: 'Ops! Não encontramos registros para o ano de '+ano+', por favor, faça uma nova pesquisa.'});
+        ? res.json(200, {resultado: ano, msg: 'Olha só o que estava acontecendo em  ' + req.params.ano + ', o ano em que você nasceu:'})
+        : res.json(500, {err: 'Ops! Não encontramos registros para o ano de ' + req.params.ano + ', faça uma nova pesquisa.'});
 });
 
 // socket.io
@@ -67,7 +67,7 @@ io.sockets.on('connection', function (socket){
     socket.on('click:consulta', function (data){
         var ano = db.anos[data.ano] || false;
         (ano)
-            ? socket.emit('200', ano)
+            ? socket.emit('200', {resultado: ano, msg: 'Olha só o que estava acontecendo em  ' + data.ano + ', o ano em que você nasceu:'})
             : socket.emit('500', {err: 'Ops! Não encontramos registros para o ano de ' + data.ano + ', por favor, faça uma nova pesquisa.'});
     });
 });

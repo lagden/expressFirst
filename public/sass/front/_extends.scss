@@ -1,0 +1,5 @@
+%padExtra{
+    $padXtra: 18;
+    @include relativeSizeAttr('padding-left', $padXtra);
+    @include relativeSizeAttr('padding-right', $padXtra);
+}
