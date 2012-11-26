@@ -36,4 +36,5 @@ block content
       h2
         | Viu só quantos fatos importantes aconteceram em <span class="js-ano">1989</span>?<br>
         | Faça uma nova pesquisa ou compartilhe com seus amigos.
-      button#postToWall.blue Compartilhar
+      - if (user)
+        button#postToWall.blue Compartilhar
