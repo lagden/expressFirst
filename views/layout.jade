@@ -9,7 +9,7 @@ html(xmlns:fb='http://ogp.me/ns/fb#', lang='pt-BR')
     meta(property='og:image', content='#{url("/images/logo.png")}')
     meta(property='og:site_name', content='#{settings.appName}')
     meta(property='og:description', content='#{settings.appDescription}')
-    meta(property='fb:app_id', content='#{app.id}')
+    meta(property='fb:app_id', content='#{settings.fb_id}')
     link(rel='stylesheet', href='stylesheets/screen.css', media='Screen', type='text/css')
   body
     //- div.wrapper
@@ -34,7 +34,7 @@ html(xmlns:fb='http://ogp.me/ns/fb#', lang='pt-BR')
     script(type='text/javascript')
       window.fbAsyncInit = function(){
         FB.init({
-          appId: '#{app.id}'
+          appId: '#{settings.fb_id}'
           //- ,channelUrl: '#{url_no_scheme('/channel.html')}'
           ,status: true
           ,cookie: true

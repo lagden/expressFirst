@@ -1,7 +1,7 @@
 // require
 var express = require('express')
     , util = require('util')
-    , fb = require('./lib/fb')
+    // , fb = require('./lib/fb')
     , db = require('./lib/db')
     , app = module.exports = express()
     , http = require('http')
@@ -21,11 +21,6 @@ app.configure(function(){
     app.use(express.cookieParser());
     app.use(express.bodyParser());
     app.use(express.session({ secret: process.env.SESSION_SECRET || 'ulala123' }));
-    app.use(require('faceplate').middleware({
-        app_id: process.env.FACEBOOK_APP_ID
-        ,secret: process.env.FACEBOOK_SECRET
-        ,scope: null
-    }));
     app.use(function(req, res, next){
         app.locals({
             host: function(){ return req.headers['host']; }
@@ -49,10 +44,11 @@ io.configure(function (){
 app.set('appName','Movimento Respirar - Controlar');
 app.set('appDescription','Descubra o que aconteceu no ano em que você nasceu.');
 app.set('title', app.get('appName'));
+app.set('fb_id', '520765014631432');
 
 // routes
-app.get('/', fb.methods.handle_facebook_request);
-app.post('/', fb.methods.handle_facebook_request);
+app.get('/', function(req, res, next){ res.render('index', { req: req, app: req.session.app, user: req.session.user}); } );
+app.post('/', function(req, res, next){ res.render('index', { req: req, app: req.session.app, user: req.session.user}); } );
 
 // for manual request
 app.get('/consulta/:ano', function(req, res, next){

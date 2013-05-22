@@ -3,14 +3,8 @@
   "version": "0.0.1",
   "description": "Descubra o que aconteceu no ano em que você nasceu.",
   "dependencies": {
-    "async": "0.1.18",
     "express": "3.0.3",
-    "faceplate": "0.0.4",
     "jade": "~0.27.7",
-    "socket.io": "~0.9.11"
-  },
-  "engines": {
-    "node": "0.8.x",
-    "npm": "1.1.x"
+    "socket.io": "~0.9.x"
   }
 }
